@@ -1,0 +1,6 @@
+python-telegram-bot>=20.0
+gigachat
+nest-asyncio
+SpeechRecognition
+pydub
+python-dotenv
