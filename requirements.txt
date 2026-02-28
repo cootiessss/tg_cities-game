@@ -4,3 +4,4 @@ nest-asyncio
 SpeechRecognition
 pydub
 python-dotenv
+openai
