@@ -3,7 +3,6 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 from gigachat import GigaChat
 import asyncio
 import nest_asyncio
-#ким чен дог
 import speech_recognition as sr
 import tempfile
 import os
