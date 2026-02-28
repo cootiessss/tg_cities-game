@@ -153,6 +153,9 @@ async def process_city_input(update: Update, context: ContextTypes.DEFAULT_TYPE,
 
 # --- ОБРАБОТЧИКИ ---
 async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """
+    Обработка нажатия на кнопки
+    """
     query = update.callback_query
     await query.answer()
     chat_id = query.message.chat_id
