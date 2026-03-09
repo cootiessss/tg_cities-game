@@ -1,9 +1,11 @@
 """Модуль для работы с SQLite: логирование запросов к LLM."""
 
+import os
 import sqlite3
 from datetime import datetime
 
-DB_PATH = "bot_requests.db"
+# БД хранится на папку выше проекта
+DB_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "bot_requests.db")
 
 
 def init_db():
