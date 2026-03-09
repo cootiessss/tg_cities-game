@@ -5,6 +5,7 @@ from telegram.ext import ContextTypes
 
 from state import games
 from llm import ask_llm
+from database import log_request
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -47,14 +48,17 @@ async def process_city_input(update: Update, context: ContextTypes.DEFAULT_TYPE,
     check_prompt = f'Является ли "{user_city}" реально существующим названием города? Ответь ТОЛЬКО "да" или "нет".'
     is_real = await ask_llm(game, check_prompt)
     if "да" not in is_real.lower():
+        log_request(req=user_city, resp=f"Город «{user_city}»? Звучит как выдумка. Назови настоящий!", llm=game["model"])
         await update.message.reply_text(f"Город «{user_city}»? Звучит как выдумка. Назови настоящий!")
         return
 
     # Проверка правил
     if user_city.lower() in game["used"]:
+        log_request(req=user_city, resp="Этот город уже был!", llm=game["model"])
         await update.message.reply_text("Этот город уже был!")
         return
     if game["last_char"] and user_city[0].lower() != game["last_char"]:
+        log_request(req=user_city, resp=f"Нужен город на букву {game['last_char'].upper()}!", llm=game["model"])
         await update.message.reply_text(f"Нужен город на букву **{game['last_char'].upper()}**!")
         return
 
@@ -83,6 +87,7 @@ async def process_city_input(update: Update, context: ContextTypes.DEFAULT_TYPE,
 
     game["used"].add(bot_city.lower())
     game["last_bot_city"] = bot_city
+    log_request(req=user_city, resp=bot_city, llm=game["model"])
     for c in reversed(bot_city.lower()):
         if c not in "ьъы":
             game["last_char"] = c

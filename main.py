@@ -3,11 +3,13 @@
 from telegram.ext import Application, CommandHandler, MessageHandler, CallbackQueryHandler, filters
 
 from config import TELEGRAM_TOKEN
+from database import init_db
 from game import start, stop, process_city_input
 from handlers import handle_callback, handle_voice
 
 
 def main():
+    init_db()
     app = Application.builder().token(TELEGRAM_TOKEN).build()
 
     app.add_handler(CommandHandler("start", start))
